@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: code/deployment/api/Dockerfile
+    container_name: convmixer-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    restart: unless-stopped
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: code/deployment/app/Dockerfile
+    container_name: convmixer-app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    restart: unless-stopped
